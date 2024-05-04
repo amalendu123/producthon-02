@@ -6,7 +6,9 @@
             "distance":4,
             "isPaid":false,
             "price":0,
-            "image":"assets/Location_image/image1.jpg"
+            "image":"assets/Location_image/image1.jpg",
+            "totalSlots":20,
+            "available":20
 
         },
         {
@@ -15,7 +17,9 @@
             "distance":6,
             "isPaid":false,
             "price":0,
-            "image":"assets/Location_image/image2.jpg"
+            "image":"assets/Location_image/image2.jpg",
+            "totalSlots":20,
+            "available":20
 
         },
         {
@@ -24,7 +28,9 @@
             "distance":8,
             "isPaid":true,
             "price":10,
-            "image":"assets/Location_image/image3.jpg"
+            "image":"assets/Location_image/image3.jpg",
+            "totalSlots":20,
+            "available":20
 
         }
     ]

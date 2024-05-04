@@ -1,3 +1,4 @@
+import 'package:appcode/component/LocationDetailPage.dart';
 import 'package:flutter/material.dart';
 
 class LocationCard extends StatelessWidget {
@@ -18,86 +19,103 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      margin: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              image,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        // Navigate to the detail page when the card is tapped
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LocationDetailPage(
+              name: name,
+              distance: distance,
+              isPaid: isPaid,
+              price: price,
+              image: image,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(8),
+        );
+      },
+      child: Container(
+        height: 200,
+        margin: EdgeInsets.only(top: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
+            Container(
+              padding: const EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 16,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(width: 5),
-                    Text(
-                      '$distance km away',
-                      style: TextStyle(
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
                         color: Colors.white,
-                        fontSize: 14,
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                isPaid
-                    ? Row(
-                        children: [
-                          Icon(
-                            Icons.monetization_on,
-                            color: Colors.white,
-                            size: 16,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Paid parking (\$$price)',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Text(
-                        'Free parking',
+                      SizedBox(width: 5),
+                      Text(
+                        '$distance km away',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
                       ),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  isPaid
+                      ? Row(
+                          children: [
+                            Icon(
+                              Icons.monetization_on,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              'Paid parking (\$$price)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Text(
+                          'Free parking',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
