@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EditableLocationDetailPage extends StatefulWidget {
   final String name;
@@ -23,15 +25,27 @@ class EditableLocationDetailPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EditableLocationDetailPageState createState() => _EditableLocationDetailPageState();
+  _EditableLocationDetailPageState createState() =>
+      _EditableLocationDetailPageState();
 }
 
-class _EditableLocationDetailPageState extends State<EditableLocationDetailPage> {
+class _EditableLocationDetailPageState
+    extends State<EditableLocationDetailPage> {
   late String editedName;
   late int editedDistance;
   late int editedPrice;
   late int editedTotalSpots;
   late int editedAvailableSpots;
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController distanceController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController totalSlotsController = TextEditingController();
+  final TextEditingController availableController = TextEditingController();
+  final TextEditingController imageController = TextEditingController();
+
+  var isPaid = false;
 
   @override
   void initState() {
@@ -41,6 +55,43 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
     editedPrice = widget.price;
     editedTotalSpots = widget.totalSpots;
     editedAvailableSpots = widget.availableSpots;
+  }
+
+  void _saveChanges() async {
+    try {
+      // Create a map of data to be sent in the request body
+      Map<String, dynamic> data = {
+        'name': nameController.text,
+        'location': locationController.text,
+        'distance': int.parse(distanceController.text),
+        'price': int.parse(priceController.text),
+        'totalSlots': int.parse(totalSlotsController.text),
+        'availableSlots': int.parse(availableController.text),
+        'image': imageController.text,
+        'isPaid': isPaid,
+      };
+
+      // Send POST request
+      var response = await http.post(
+        Uri.parse('http://localhost:3000/api/updateLocation'),
+        body: jsonEncode(data),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Handle success response
+        print('Location Updated successfully!');
+      } else {
+        // Handle error response
+        print(
+            'Failed to add location. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle exceptions
+      print('Error: $e');
+    }
   }
 
   @override
@@ -71,7 +122,8 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
                         editedName = value;
                       });
                     },
-                    controller: TextEditingController(text: editedName),
+                    controller: nameController
+                      ..text = editedName,
                   ),
                   SizedBox(height: 8),
                   TextField(
@@ -81,7 +133,8 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
                         editedDistance = int.tryParse(value) ?? 0;
                       });
                     },
-                    controller: TextEditingController(text: editedDistance.toString()),
+                    controller: distanceController
+                      ..text = editedDistance.toString(),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 8),
@@ -92,7 +145,8 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
                         editedPrice = int.tryParse(value) ?? 0;
                       });
                     },
-                    controller: TextEditingController(text: editedPrice.toString()),
+                    controller: priceController
+                      ..text = editedPrice.toString(),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 8),
@@ -103,18 +157,21 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
                         editedTotalSpots = int.tryParse(value) ?? 0;
                       });
                     },
-                    controller: TextEditingController(text: editedTotalSpots.toString()),
+                    controller: totalSlotsController
+                      ..text = editedTotalSpots.toString(),
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 8),
                   TextField(
-                    decoration: InputDecoration(labelText: 'Available Spots'),
+                    decoration:
+                        InputDecoration(labelText: 'Available Spots'),
                     onChanged: (value) {
                       setState(() {
                         editedAvailableSpots = int.tryParse(value) ?? 0;
                       });
                     },
-                    controller: TextEditingController(text: editedAvailableSpots.toString()),
+                    controller: availableController
+                      ..text = editedAvailableSpots.toString(),
                     keyboardType: TextInputType.number,
                   ),
                 ],
@@ -126,9 +183,7 @@ class _EditableLocationDetailPageState extends State<EditableLocationDetailPage>
               padding: EdgeInsets.all(16),
               color: Colors.grey[200],
               child: ElevatedButton(
-                onPressed: () {
-                  // Implement logic to save changes
-                },
+                onPressed: _saveChanges,
                 child: Text('SAVE CHANGES'),
               ),
             ),
