@@ -93,6 +93,9 @@ class _HomeState extends State<Home> {
                           isPaid: item["isPaid"],
                           price: item["price"],
                           image: item["image"],
+                          totalSpots: item["totalSlots"],
+                          availableSpots: item["available"],
+                          spots:item["spot"]
                         ),
                       ),
                     );

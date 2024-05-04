@@ -6,6 +6,10 @@ class LocationDetailPage extends StatelessWidget {
   final bool isPaid;
   final int price;
   final String image;
+  final int totalSpots;
+  final int availableSpots;
+  final List spots;
+
 
   const LocationDetailPage({
     Key? key,
@@ -14,21 +18,28 @@ class LocationDetailPage extends StatelessWidget {
     required this.isPaid,
     required this.price,
     required this.image,
+    required this.totalSpots,
+    required this.availableSpots,
+    required this.spots
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Location Detail'),
+        title: Text(name),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          
           children: [
-            Image.asset(
-              image,
-              fit: BoxFit.cover,
+            Center(
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+                
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -56,6 +67,23 @@ class LocationDetailPage extends StatelessWidget {
                     Text(
                       'Price: \$$price',
                       style: TextStyle(fontSize: 16),
+                    ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Total Spots: $totalSpots',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Available Spots: $availableSpots',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  for (int i = 0; i < spots.length; i++)
+                    CheckboxListTile(
+                      title: Text('Spot ${i + 1}'),
+                      value:spots[i] == '1'?true : false,
+                      onChanged:spots[i] =='1'? null: (newValue) {print('Checkbox ${i + 1} changed to: $newValue');
+                       }, // Disable checkbox interaction
                     ),
                 ],
               ),

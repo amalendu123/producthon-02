@@ -7,6 +7,9 @@ class LocationCard extends StatelessWidget {
   final bool isPaid;
   final int price;
   final String image;
+  final int totalSpots;
+  final int availableSpots;
+  final List spots;
 
   const LocationCard({
     Key? key,
@@ -15,6 +18,9 @@ class LocationCard extends StatelessWidget {
     required this.isPaid,
     required this.price,
     required this.image,
+    required this.totalSpots,
+    required this.availableSpots,
+    required this.spots
   }) : super(key: key);
 
   @override
@@ -31,6 +37,9 @@ class LocationCard extends StatelessWidget {
               isPaid: isPaid,
               price: price,
               image: image,
+              totalSpots: totalSpots,
+              availableSpots: availableSpots,
+              spots: spots
             ),
           ),
         );
