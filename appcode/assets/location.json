@@ -8,8 +8,8 @@
             "price":0,
             "image":"assets/Location_image/image1.jpg",
             "totalSlots":20,
-            "available":20
-
+            "available":20,
+            "spot":["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
         },
         {
             "id":0,
@@ -19,7 +19,8 @@
             "price":0,
             "image":"assets/Location_image/image2.jpg",
             "totalSlots":20,
-            "available":20
+            "available":20,
+            "spot":["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
 
         },
         {
@@ -30,8 +31,8 @@
             "price":10,
             "image":"assets/Location_image/image3.jpg",
             "totalSlots":20,
-            "available":20
-
+            "available":20,
+            "spot":["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
         }
     ]
 }
