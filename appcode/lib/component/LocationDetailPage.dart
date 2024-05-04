@@ -1,3 +1,4 @@
+import 'package:appcode/component/BookingScreen.dart';
 import 'package:flutter/material.dart';
 
 class LocationDetailPage extends StatelessWidget {
@@ -79,15 +80,27 @@ class LocationDetailPage extends StatelessWidget {
               ),
             ),
             // Footer
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(16),
-              color: Colors.grey[200],
-              child: Text(
-                'BOOK PARKING',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
+            GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BookingScreen(
+        name: name,
+        availableSpots: availableSpots,
+      )),
+    );
+  },
+  child: Container(
+    alignment: Alignment.center,
+    padding: EdgeInsets.all(16),
+    color: Colors.grey[200],
+    child: Text(
+      'BOOK PARKING',
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    ),
+  ),
+),
+
           ],
         ),
       ),
