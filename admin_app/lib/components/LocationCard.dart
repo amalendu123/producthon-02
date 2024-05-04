@@ -1,4 +1,5 @@
-import 'package:appcode/component/LocationDetailPage.dart';
+import 'package:admin_app/components/LocationDetailPage.dart';
+
 import 'package:flutter/material.dart';
 
 class LocationCard extends StatelessWidget {
@@ -31,7 +32,7 @@ class LocationCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LocationDetailPage(
+            builder: (context) =>EditableLocationDetailPage(
               name: name,
               distance: distance,
               isPaid: isPaid,
