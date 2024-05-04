@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:appcode/component/profile.dart';
+import 'package:admin_app/components/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:timeline_tile/timeline_tile.dart';
-import 'package:appcode/component/Locationcard.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key});
@@ -107,41 +105,32 @@ class _HomeState extends State<Home> {
                   itemCount: location.length,
                   itemBuilder: (context, index) {
                     var item = location[index];
-                    return SizedBox(
-                      height: 300,
-                      child: TimelineTile(
-                        beforeLineStyle:
-                            LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                        indicatorStyle: IndicatorStyle(
-                          width: 10,
-                          color: const Color.fromARGB(255, 140, 77, 208),
-                          indicator: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            ),
-                          ),
-                        ),
-                        endChild: LocationCard(
-<<<<<<< Updated upstream
-                          name: item["Name"],
-                          distance: item["distance"],
-                          isPaid: item["isPaid"],
-                          price: item["price"],
-                          image: item["image"],
-                        ),
-=======
-                            name: item["Name"],
-                            distance: item["distance"],
-                            isPaid: item["isPaid"],
-                            price: item["price"],
-                            image: item["image"],
-                            totalSpots: item["totalSlots"],
-                            availableSpots: item["available"],
-                            spots: item["spot"]),
->>>>>>> Stashed changes
-                      ),
-                    );
+                    // return SizedBox(
+                    //   height: 300,
+                    //   child: TimelineTile(
+                    //     beforeLineStyle:
+                    //         LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    //     indicatorStyle: IndicatorStyle(
+                    //       width: 10,
+                    //       color: const Color.fromARGB(255, 140, 77, 208),
+                    //       indicator: Container(
+                    //         decoration: BoxDecoration(
+                    //           shape: BoxShape.rectangle,
+                    //           color: Color.fromARGB(255, 0, 0, 0),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     endChild: LocationCard(
+                    //         name: item["Name"],
+                    //         distance: item["distance"],
+                    //         isPaid: item["isPaid"],
+                    //         price: item["price"],
+                    //         image: item["image"],
+                    //         totalSpots: item["totalSlots"],
+                    //         availableSpots: item["available"],
+                    //         spots: item["spot"]),
+                    //   ),
+                    // );
                   },
                 ),
               ),
