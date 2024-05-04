@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:appcode/component/Locationcard.dart';
 import 'package:http/http.dart' as http;
+
 class Location {
   final int id;
   final String name;
@@ -14,7 +15,7 @@ class Location {
   final String image;
   final int totalSlots;
   final int available;
- 
+
   const Location({
     required this.id,
     required this.name,
@@ -24,7 +25,6 @@ class Location {
     required this.image,
     required this.totalSlots,
     required this.available,
-   
   });
 
   factory Location.fromJson(Map<String, dynamic> json) {
@@ -33,18 +33,13 @@ class Location {
       name: json['Name'] as String,
       distance: json['distance'] as int,
       isPaid: json['isPaid'] as bool,
-      price: json['price'] as int,
+      price: json['price'] != null ? json['price'] as int : 0,
       image: json['image'] as String,
-      totalSlots: json['totalSlots'] as int,
-      available: json['available'] as int,
-      
+      totalSlots: json['totalSlots'] != null ? json['totalSlots'] as int : 0,
+      available: json['available'] != null ? json['available'] as int : 0,
     );
   }
 }
-
-
- 
-
 
 class Home extends StatefulWidget {
   Home({Key? key});
@@ -54,29 +49,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late Future<Location> location;
- @override
+  late Future<List<Location>> location;
+  @override
   void initState() {
     super.initState();
     location = fetchLocation();
+    print(location);
   }
-  
 
-Future<Location> fetchLocation() async {
-  final response = await http.get(
-      Uri.parse('http://localhost:3000/api/getlocation')); // Replace with your API endpoint
+  Future<List<Location>> fetchLocation() async {
+    final response =
+        await http.get(Uri.parse('http://localhost:3000/api/getlocation'));
 
-  if (response.statusCode == 200) {
-    
-    return Location.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-  } else {
-   
-    throw Exception('Failed to load location');
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> results = data['searchResults'];
+
+      // Map each item in searchResults to a Location object
+      List<Location> locations =
+      results.map((json) => Location.fromJson(json)).toList();
+
+      // Return the list of Location objects
+      return locations;
+    } else {
+      throw Exception('Failed to load location');
+    }
   }
-}
-  
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -150,10 +148,10 @@ Future<Location> fetchLocation() async {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
               ),
             ),
-           Expanded(
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: FutureBuilder<Location>(
+                child: FutureBuilder<List<Location>>(
                   future: location, // Pass the location future here
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -164,32 +162,61 @@ Future<Location> fetchLocation() async {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else {
                       // If data is successfully fetched, display it.
-                      var item = snapshot.data!; // Use snapshot.data to access the location object
-                      return SizedBox(
-                        height: 300,
-                        child: TimelineTile(
-                          beforeLineStyle: LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                          indicatorStyle: IndicatorStyle(
-                            width: 10,
-                            color: const Color.fromARGB(255, 140, 77, 208),
-                            indicator: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: Color.fromARGB(255, 0, 0, 0),
+                      var locations = snapshot
+                          .data!; // Use snapshot.data to access the list of locations
+                      return ListView.builder(
+                        itemCount: locations.length,
+                        itemBuilder: (context, index) {
+                          var item = locations[index];
+                          return SizedBox(
+                            height: 300,
+                            child: TimelineTile(
+                              beforeLineStyle: LineStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                              indicatorStyle: IndicatorStyle(
+                                width: 10,
+                                color: const Color.fromARGB(255, 140, 77, 208),
+                                indicator: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                              ),
+                              endChild: LocationCard(
+                                name: item.name,
+                                distance: item.distance,
+                                isPaid: item.isPaid,
+                                price: item.price,
+                                image: item.image,
+                                totalSpots: item.totalSlots,
+                                availableSpots: item.available,
+                                spots: const [
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0",
+                                  "0"
+                                ],
                               ),
                             ),
-                          ),
-                          endChild: LocationCard(
-                            name: item.name,
-                            distance: item.distance,
-                            isPaid: item.isPaid,
-                            price: item.price,
-                            image: item.image,
-                            totalSpots: item.totalSlots,
-                            availableSpots: item.available,
-                            spots: const ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],
-                          ),
-                        ),
+                          );
+                        },
                       );
                     }
                   },

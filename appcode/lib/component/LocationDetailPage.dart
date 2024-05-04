@@ -10,7 +10,6 @@ class LocationDetailPage extends StatelessWidget {
   final int availableSpots;
   final List spots;
 
-
   const LocationDetailPage({
     Key? key,
     required this.name,
@@ -20,7 +19,7 @@ class LocationDetailPage extends StatelessWidget {
     required this.image,
     required this.totalSpots,
     required this.availableSpots,
-    required this.spots
+    required this.spots,
   }) : super(key: key);
 
   @override
@@ -32,13 +31,11 @@ class LocationDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          
           children: [
             Center(
               child: Image.asset(
                 image,
                 fit: BoxFit.cover,
-                
               ),
             ),
             Padding(
@@ -78,14 +75,17 @@ class LocationDetailPage extends StatelessWidget {
                     'Available Spots: $availableSpots',
                     style: TextStyle(fontSize: 20),
                   ),
-                  for (int i = 0; i < spots.length; i++)
-                    CheckboxListTile(
-                      title: Text('Spot ${i + 1}'),
-                      value:spots[i] == '1'?true : false,
-                      onChanged:spots[i] =='1'? null: (newValue) {print('Checkbox ${i + 1} changed to: $newValue');
-                       }, // Disable checkbox interaction
-                    ),
                 ],
+              ),
+            ),
+            // Footer
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(16),
+              color: Colors.grey[200],
+              child: Text(
+                'BOOK PARKING',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ],
