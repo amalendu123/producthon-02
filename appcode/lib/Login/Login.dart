@@ -47,7 +47,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   controller: nameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'User Name',
+                    labelText: 'Username',
                     labelStyle: TextStyle(
                       // Set the label text style
                       color: const Color.fromARGB(
@@ -90,12 +90,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      // print(nameController.text);
-                      // print(passwordController.text);
                       String username = nameController.text;
                       String password = passwordController.text;
                       if (username == "kishan" && password == "1234") {
-                       
+                        nameController.text = "";
+                        passwordController.text = "";
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -103,6 +102,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   Home()), // Navigate to the Home page
                         );
                       } else {
+                        nameController.text = "";
+                        passwordController.text = "";
+
                         // Show a SnackBar indicating incorrect credentials
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
