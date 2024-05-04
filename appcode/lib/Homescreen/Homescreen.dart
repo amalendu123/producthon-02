@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appcode/component/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List location =[];
+  late List location = [];
 
   Future<void> loadData() async {
     var data = await rootBundle.loadString("assets/location.json");
@@ -34,12 +35,16 @@ class _HomeState extends State<Home> {
         leading: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.location_city),
+              icon: Icon(Icons.location_on),
+              iconSize: 30,
               onPressed: () {
                 // Do something
               },
             ),
-            Text("Kollam")
+            Text(
+              "Kollam",
+              style: TextStyle(fontSize: 15),
+            ),
           ],
         ),
         leadingWidth: 100,
@@ -48,27 +53,56 @@ class _HomeState extends State<Home> {
           children: [
             IconButton(
               icon: Icon(Icons.person),
+              iconSize: 30,
               onPressed: () {
-                // Do something
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 0, 0, 100),
+                  items: [
+                    PopupMenuItem(
+                      child: ListTile(
+                        leading: Icon(Icons.account_circle),
+                        title: Text('Profile'),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: ListTile(
+                        leading: Icon(Icons.logout),
+                        title: Text('Logout'),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        // Perform action for Logout
+                      },
+                    ),
+                  ],
+                );
               },
             ),
           ],
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromARGB(255, 140, 77, 208),
       ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 35),
               child: Text(
                 "Parking Near You",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: ListView.builder(
                   itemCount: location.length,
                   itemBuilder: (context, index) {
@@ -76,14 +110,15 @@ class _HomeState extends State<Home> {
                     return SizedBox(
                       height: 300,
                       child: TimelineTile(
-                        beforeLineStyle: LineStyle(color: Colors.deepPurple),
+                        beforeLineStyle:
+                            LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
                         indicatorStyle: IndicatorStyle(
-                          width: 20,
-                          color: Colors.deepPurple,
+                          width: 10,
+                          color: const Color.fromARGB(255, 140, 77, 208),
                           indicator: Container(
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.deepPurple,
+                              shape: BoxShape.rectangle,
+                              color: Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
                         ),
