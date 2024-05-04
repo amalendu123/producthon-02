@@ -32,20 +32,21 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         leading: Row(
           children: [
-            IconButton(
-              icon: Icon(Icons.location_on),
-              iconSize: 30,
+            TextButton(
               onPressed: () {
-                // Do something
+                // Logic for adding a new space
               },
-            ),
-            Text(
-              "Kollam",
-              style: TextStyle(fontSize: 15),
+              child: Text(
+                'Add space',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ],
         ),
-        leadingWidth: 100,
+        leadingWidth: 150, // Adjust this width as needed
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -66,7 +67,8 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                            builder: (context) => ProfilePage(),
+                          ),
                         );
                       },
                     ),
@@ -94,7 +96,7 @@ class _HomeState extends State<Home> {
             Container(
               margin: EdgeInsets.only(top: 35),
               child: Text(
-                "Parking Near You",
+                "Rent your space",
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
               ),
             ),
@@ -105,32 +107,49 @@ class _HomeState extends State<Home> {
                   itemCount: location.length,
                   itemBuilder: (context, index) {
                     var item = location[index];
-                    // return SizedBox(
-                    //   height: 300,
-                    //   child: TimelineTile(
-                    //     beforeLineStyle:
-                    //         LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                    //     indicatorStyle: IndicatorStyle(
-                    //       width: 10,
-                    //       color: const Color.fromARGB(255, 140, 77, 208),
-                    //       indicator: Container(
-                    //         decoration: BoxDecoration(
-                    //           shape: BoxShape.rectangle,
-                    //           color: Color.fromARGB(255, 0, 0, 0),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     endChild: LocationCard(
-                    //         name: item["Name"],
-                    //         distance: item["distance"],
-                    //         isPaid: item["isPaid"],
-                    //         price: item["price"],
-                    //         image: item["image"],
-                    //         totalSpots: item["totalSlots"],
-                    //         availableSpots: item["available"],
-                    //         spots: item["spot"]),
-                    //   ),
-                    // );
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Placeholder(
+                            fallbackHeight: 200,
+                            color: Colors.grey[300]!,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item["Name"],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Distance: ${item["distance"]}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Price: ${item["price"]}',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),
@@ -140,4 +159,10 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Home(),
+  ));
 }
