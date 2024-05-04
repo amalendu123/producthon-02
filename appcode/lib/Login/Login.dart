@@ -1,3 +1,4 @@
+import 'package:appcode/Homescreen/Homescreen.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -94,13 +95,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       String username = nameController.text;
                       String password = passwordController.text;
                       if (username == "kishan" && password == "1234") {
-                        // Navigate to the home page if credentials are correct
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           Home()), // Navigate to the Home page
-                        // );
+                       
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Home()), // Navigate to the Home page
+                        );
                       } else {
                         // Show a SnackBar indicating incorrect credentials
                         ScaffoldMessenger.of(context).showSnackBar(
