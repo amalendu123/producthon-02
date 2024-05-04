@@ -1,0 +1,12 @@
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/admin_app
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/amalendu/currentpro/parking-slot/admin_app/build/linux/x64/debug/bundle/data/flutter_assets/version.json
