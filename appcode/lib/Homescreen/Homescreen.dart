@@ -4,6 +4,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:appcode/component/Locationcard.dart';
+import 'package:http/http.dart' as http;
+class Location {
+  final int id;
+  final String name;
+  final int distance;
+  final bool isPaid;
+  final int price;
+  final String image;
+  final int totalSlots;
+  final int available;
+ 
+  const Location({
+    required this.id,
+    required this.name,
+    required this.distance,
+    required this.isPaid,
+    required this.price,
+    required this.image,
+    required this.totalSlots,
+    required this.available,
+   
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      id: json['id'] as int,
+      name: json['Name'] as String,
+      distance: json['distance'] as int,
+      isPaid: json['isPaid'] as bool,
+      price: json['price'] as int,
+      image: json['image'] as String,
+      totalSlots: json['totalSlots'] as int,
+      available: json['available'] as int,
+      
+    );
+  }
+}
+
+
+ 
+
 
 class Home extends StatefulWidget {
   Home({Key? key});
@@ -13,20 +54,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List location = [];
-
-  Future<void> loadData() async {
-    var data = await rootBundle.loadString("assets/location.json");
-    setState(() {
-      location = json.decode(data)["location"];
-    });
-  }
-
-  @override
+  late Future<Location> location;
+ @override
   void initState() {
     super.initState();
-    loadData();
+    location = fetchLocation();
   }
+  
+
+Future<Location> fetchLocation() async {
+  final response = await http.get(
+      Uri.parse('http://localhost:3000/api/getlocation')); // Replace with your API endpoint
+
+  if (response.statusCode == 200) {
+    
+    return Location.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  } else {
+   
+    throw Exception('Failed to load location');
+  }
+}
+  
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -100,40 +150,48 @@ class _HomeState extends State<Home> {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
               ),
             ),
-            Expanded(
+           Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: ListView.builder(
-                  itemCount: location.length,
-                  itemBuilder: (context, index) {
-                    var item = location[index];
-                    return SizedBox(
-                      height: 300,
-                      child: TimelineTile(
-                        beforeLineStyle:
-                            LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                        indicatorStyle: IndicatorStyle(
-                          width: 10,
-                          color: const Color.fromARGB(255, 140, 77, 208),
-                          indicator: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                child: FutureBuilder<Location>(
+                  future: location, // Pass the location future here
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // While data is being fetched, show a loading indicator.
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      // If an error occurred while fetching data, display an error message.
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      // If data is successfully fetched, display it.
+                      var item = snapshot.data!; // Use snapshot.data to access the location object
+                      return SizedBox(
+                        height: 300,
+                        child: TimelineTile(
+                          beforeLineStyle: LineStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                          indicatorStyle: IndicatorStyle(
+                            width: 10,
+                            color: const Color.fromARGB(255, 140, 77, 208),
+                            indicator: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
                             ),
                           ),
+                          endChild: LocationCard(
+                            name: item.name,
+                            distance: item.distance,
+                            isPaid: item.isPaid,
+                            price: item.price,
+                            image: item.image,
+                            totalSpots: item.totalSlots,
+                            availableSpots: item.available,
+                            spots: const ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],
+                          ),
                         ),
-                        endChild: LocationCard(
-                          name: item["Name"],
-                          distance: item["distance"],
-                          isPaid: item["isPaid"],
-                          price: item["price"],
-                          image: item["image"],
-                          totalSpots: item["totalSlots"],
-                          availableSpots: item["available"],
-                          spots:item["spot"]
-                        ),
-                      ),
-                    );
+                      );
+                    }
                   },
                 ),
               ),
