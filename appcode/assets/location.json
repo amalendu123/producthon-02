@@ -1,0 +1,31 @@
+{
+    "location":[
+        {
+            "id":0,
+            "Name":"Near the beach",
+            "distance":4,
+            "isPaid":false,
+            "price":0,
+            "image":"assets/Location_image/image1.jpg"
+
+        },
+        {
+            "id":0,
+            "Name":"Near the market",
+            "distance":6,
+            "isPaid":false,
+            "price":0,
+            "image":"assets/Location_image/image2.jpg"
+
+        },
+        {
+            "id":0,
+            "Name":"Paid parking",
+            "distance":8,
+            "isPaid":true,
+            "price":10,
+            "image":"assets/Location_image/image3.jpg"
+
+        }
+    ]
+}
